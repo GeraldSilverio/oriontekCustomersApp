@@ -1,0 +1,12 @@
+{
+  "realm": "oriontek-realm",
+  "enabled": true,
+  "users": [
+    {
+      "username": "admin-local",
+      "enabled": true,
+      "credentials": [{ "type": "password", "value": "admin123", "temporary": false }],
+      "realmRoles": ["admin"]
+    }
+  ]
+}
