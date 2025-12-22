@@ -1,4 +1,4 @@
-package com.oriontek.oriontek.customers.app.domain;
+package com.oriontek.oriontek.customers.app.domain.Models;
 
 import java.util.UUID;
 
@@ -8,8 +8,8 @@ public class Address {
     private String street;
     private String city;
     private String country;
-    
     private boolean principal;
+    private boolean isDeleted;
 
     public Address(UUID id, String street, String city, String country, boolean principal) {
         this.id = id;
@@ -56,5 +56,13 @@ public class Address {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+    
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

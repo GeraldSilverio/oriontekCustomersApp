@@ -8,19 +8,30 @@ import java.util.UUID;
 public class AddressEntity {
 
     @Id
-    @Column(nullable = false)
+    @Column(name = "address_id")
     private UUID id;
 
-    private String street;
-    private String city;
-    private String country;
-    private boolean principal;
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", nullable = false)
     private CustomerEntity customer;
 
-    protected AddressEntity() {}
+    @Column(name = "street")
+    private String street;
+
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "country")
+    private String country;
+
+    @Column(name = "principal")
+    private boolean principal;
+    
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
+    protected AddressEntity() {
+    }
 
     public UUID getId() {
         return id;
@@ -69,6 +80,13 @@ public class AddressEntity {
     public void setCustomer(CustomerEntity customer) {
         this.customer = customer;
     }
-    
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
 
 }

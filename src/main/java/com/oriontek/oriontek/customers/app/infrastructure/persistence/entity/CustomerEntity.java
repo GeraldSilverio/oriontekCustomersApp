@@ -10,26 +10,32 @@ import java.util.UUID;
 public class CustomerEntity {
 
     @Id
-    @Column(nullable = false)
+    @Column(name = "customer_id", nullable = false)
     private UUID id;
 
+    @Column(name = "first_name", length = 100)
     private String name;
+
+    @Column(name = "last_name", length = 100)
     private String lastName;
+
+    @Column(name = "email", unique = true, length = 150)
     private String email;
+
+    @Column(name = "identification_number", unique = true, length = 50)
     private String identificationNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "identification_type_id")
-    private IdentificationTypeEntity identificationType;
+    @Column(name = "identification_type")
+    private Integer identificationType;
 
-    @OneToMany(
-        mappedBy = "customer",
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
-    )
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AddressEntity> addresses = new ArrayList<>();
 
-    protected CustomerEntity() {}
+    public CustomerEntity() {
+    }
 
     public UUID getId() {
         return id;
@@ -71,14 +77,6 @@ public class CustomerEntity {
         this.identificationNumber = identificationNumber;
     }
 
-    public IdentificationTypeEntity getIdentificationType() {
-        return identificationType;
-    }
-
-    public void setIdentificationType(IdentificationTypeEntity identificationType) {
-        this.identificationType = identificationType;
-    }
-
     public List<AddressEntity> getAddresses() {
         return addresses;
     }
@@ -86,5 +84,21 @@ public class CustomerEntity {
     public void setAddresses(List<AddressEntity> addresses) {
         this.addresses = addresses;
     }
-}
 
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public Integer getIdentificationType() {
+        return identificationType;
+    }
+
+    public void setIdentificationType(Integer identificationType) {
+        this.identificationType = identificationType;
+    }
+
+}

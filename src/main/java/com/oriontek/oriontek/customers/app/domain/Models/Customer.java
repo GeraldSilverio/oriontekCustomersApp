@@ -1,4 +1,4 @@
-package com.oriontek.oriontek.customers.app.domain;
+package com.oriontek.oriontek.customers.app.domain.Models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,51 +6,50 @@ import java.util.UUID;
 
 public class Customer {
 
-    private UUID id;
+    private final UUID id;
     private String name;
     private String lastName;
     private String email;
     private String identificationNumber;
-    private IdentificationType identificationType;
-    private List<Address> addresses = new ArrayList<>();
+    private int identificationType;
+    private final List<Address> addresses;
+    private boolean deleted;
 
-    public Customer(
+    private Customer(
             UUID id,
             String name,
             String lastName,
             String email,
             String identificationNumber,
-            IdentificationType identificationType
-    ) {
+            int identificationType) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.email = email;
         this.identificationNumber = identificationNumber;
         this.identificationType = identificationType;
-    }
-    
-    public void addAddress(Address address) {
-        if (address.isPrincipal()) {
-            addresses.forEach(Address::unsetPrincipal);
-        }
-        addresses.add(address);
+        this.addresses = new ArrayList<>();
+        this.deleted = false;
     }
 
-    public void setPrincipalAddress(UUID addressId) {
-        addresses.forEach(a -> a.unsetPrincipal());
-        addresses.stream()
-                .filter(a -> a.getId().equals(addressId))
-                .findFirst()
-                .ifPresent(Address::setAsPrincipal);
+    public static Customer create(
+            String name,
+            String lastName,
+            String email,
+            String identificationNumber,
+            int identificationType) {
+        return new Customer(
+                UUID.randomUUID(),
+                name,
+                lastName,
+                email,
+                identificationNumber,
+                identificationType);
+
     }
 
     public UUID getId() {
         return id;
-    }
-
-    public List<Address> getAddresses() {
-        return List.copyOf(addresses);
     }
 
     public String getName() {
@@ -85,11 +84,23 @@ public class Customer {
         this.identificationNumber = identificationNumber;
     }
 
-    public IdentificationType getIdentificationType() {
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public Integer getIdentificationType() {
         return identificationType;
     }
 
-    public void setIdentificationType(IdentificationType identificationType) {
+    public void setIdentificationType(Integer identificationType) {
         this.identificationType = identificationType;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
     }
 }
