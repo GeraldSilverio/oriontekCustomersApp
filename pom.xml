@@ -50,6 +50,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>5.12.0</version>
+			<scope>test</scope>
+		</dependency>
+
+
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -78,6 +86,8 @@
 		</dependency>
 	</dependencies>
 
+
+
 	<build>
 		<plugins>
 			<plugin>
@@ -92,6 +102,43 @@
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.11</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<includes>
+								<include>**/features/**/command/**</include>
+								<include>**/features/**/query/**</include>
+							</includes>
+							<excludes>
+								<exclude>**/infrastructure/**</exclude>
+								<exclude>**/domain/**</exclude>
+								<exclude>**/presentation/**</exclude>
+								<exclude>**/application/cqrs/**</exclude>
+								<exclude>**/application/dtos/**</exclude>
+								<exclude>**/application/result/**</exclude>
+								<exclude>**/*Mapper.class</exclude>
+								<exclude>**/*Models.class</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

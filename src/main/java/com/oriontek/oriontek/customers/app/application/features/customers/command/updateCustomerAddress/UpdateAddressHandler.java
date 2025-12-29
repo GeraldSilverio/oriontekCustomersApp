@@ -8,11 +8,7 @@ import com.oriontek.oriontek.customers.app.domain.Models.Address;
 import com.oriontek.oriontek.customers.app.domain.Models.Customer;
 import com.oriontek.oriontek.customers.app.domain.repositories.AddressRepository;
 import com.oriontek.oriontek.customers.app.domain.repositories.CustomerRepository;
-
-import lombok.val;
-
 import com.oriontek.oriontek.customers.app.application.result.Error;
-
 @Component("UpdateAddressCommandHandler")
 public class UpdateAddressHandler
         implements CommandHandler<UpdateAddressCommand, Void> {
