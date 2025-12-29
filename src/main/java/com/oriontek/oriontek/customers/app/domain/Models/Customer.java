@@ -1,106 +1,97 @@
 package com.oriontek.oriontek.customers.app.domain.Models;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public class Customer {
+import lombok.Getter;
+import lombok.Setter;
 
-    private final UUID id;
-    private String name;
+@Getter
+@Setter
+public class Customer extends AuditableEntity {
+
+    private UUID idCustomer;
+    private String firstName;
     private String lastName;
     private String email;
     private String identificationNumber;
     private int identificationType;
-    private final List<Address> addresses;
-    private boolean deleted;
+    private boolean isDeleted;
+    private List<Address> addresses;
 
-    private Customer(
-            UUID id,
-            String name,
+    protected Customer() {
+    }
+
+    public Customer(
+            UUID idCustomer,
+            String firstName,
             String lastName,
             String email,
             String identificationNumber,
-            int identificationType) {
-        this.id = id;
-        this.name = name;
+            int identificationType,
+            List<Address> addresses,
+            String createdBy,
+            LocalDateTime createdAt) {
+        this.idCustomer = idCustomer;
+        this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.identificationNumber = identificationNumber;
         this.identificationType = identificationType;
-        this.addresses = new ArrayList<>();
-        this.deleted = false;
+        this.addresses = addresses;
+        this.isDeleted = false;
+        this.createdBy = createdBy;
+        this.createdAt = createdAt;
     }
 
-    public static Customer create(
-            String name,
+    public Customer(
+            UUID idCustomer,
+            String firstName,
             String lastName,
             String email,
             String identificationNumber,
-            int identificationType) {
-        return new Customer(
-                UUID.randomUUID(),
-                name,
-                lastName,
-                email,
-                identificationNumber,
-                identificationType);
-
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
+            int identificationType,
+            List<Address> addresses,
+            boolean isDeleted,
+            String createdBy,
+            LocalDateTime createdAt,
+            String updatedBy,
+            LocalDateTime updatedAt) {
+        this.idCustomer = idCustomer;
+        this.firstName = firstName;
         this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getIdentificationNumber() {
-        return identificationNumber;
-    }
-
-    public void setIdentificationNumber(String identificationNumber) {
         this.identificationNumber = identificationNumber;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public Integer getIdentificationType() {
-        return identificationType;
-    }
-
-    public void setIdentificationType(Integer identificationType) {
         this.identificationType = identificationType;
+        this.addresses = addresses;
+        this.isDeleted = isDeleted;
+        this.createdBy = createdBy;
+        this.createdAt = createdAt;
+        this.updatedBy = updatedBy;
+        this.updatedAt = updatedAt;
     }
 
-    public List<Address> getAddresses() {
-        return addresses;
+    public void update(
+            String firstname,
+            String lastName,
+            String email,
+            String identificationNumber,
+            int identificationType,
+            String modifiedBy,
+            LocalDateTime modifiedAt) {
+        this.firstName = firstname;
+        this.lastName = lastName;
+        this.email = email;
+        this.identificationNumber = identificationNumber;
+        this.identificationType = identificationType;
+        this.updatedBy = modifiedBy;
+        this.updatedAt = modifiedAt;
+    }
+
+    public void softDelete(String updatedBy) {
+        this.isDeleted = true;
+        this.updatedBy = updatedBy;
+        this.updatedAt = LocalDateTime.now();
     }
 }

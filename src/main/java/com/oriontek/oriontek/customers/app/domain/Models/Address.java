@@ -1,68 +1,95 @@
 package com.oriontek.oriontek.customers.app.domain.Models;
-
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class Address {
+import lombok.Getter;
+import lombok.Setter;
 
-    private UUID id;
+@Getter
+@Setter
+public class Address extends AuditableEntity{
+
+    private UUID idAddress;
+    private UUID customerId;
     private String street;
     private String city;
     private String country;
-    private boolean principal;
+    private boolean isPrincipal;
     private boolean isDeleted;
 
-    public Address(UUID id, String street, String city, String country, boolean principal) {
-        this.id = id;
+    protected Address() {
+    }
+
+    public Address(
+            UUID idAddress,
+            UUID customerId,
+            String street,
+            String city,
+            String country,
+            boolean isPrincipal,
+            String createdBy,
+            LocalDateTime createdAt
+    ) {
+        this.idAddress = idAddress;
+        this.customerId = customerId;
         this.street = street;
         this.city = city;
         this.country = country;
-        this.principal = principal;
+        this.isPrincipal = isPrincipal;
+        this.isDeleted = false;
+        this.createdBy = createdBy;
+        this.createdAt = createdAt;
     }
 
-    public UUID getId() {
-        return id;
+    public Address(
+        UUID idAddress,
+        UUID customerId,
+        String street,
+        String city,
+        String country,
+        boolean isPrincipal,
+        boolean isDeleted,
+        String createdBy,
+        LocalDateTime createdAt,
+        String updatedBy,
+        LocalDateTime updatedAt
+) {
+    this.idAddress = idAddress;
+    this.customerId = customerId;
+    this.street = street;
+    this.city = city;
+    this.country = country;
+    this.isPrincipal = isPrincipal;
+    this.isDeleted = isDeleted;
+    this.createdBy = createdBy;
+    this.createdAt = createdAt;
+    this.updatedBy = updatedBy;
+    this.updatedAt = updatedAt;
+}
+
+
+    public void markAsPrincipal() {
+        this.isPrincipal = true;
     }
 
-    public boolean isPrincipal() {
-        return principal;
+    public void softDelete(String updatedBy) {
+        this.isDeleted = true;
+        this.updatedBy = updatedBy;
+        this.updatedAt = LocalDateTime.now();
     }
 
-    public void setAsPrincipal() {
-        this.principal = true;
-    }
-
-    public void unsetPrincipal() {
-        this.principal = false;
-    }
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
+    public void update(
+            String street,
+            String city,
+            String country,
+            boolean isPrincipal,
+            String updatedBy
+    ) {
         this.street = street;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
         this.city = city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
         this.country = country;
-    }
-    
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
+        this.isPrincipal = isPrincipal;
+        this.updatedBy = updatedBy;
+        this.updatedAt = LocalDateTime.now();
     }
 }
