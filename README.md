@@ -64,9 +64,9 @@ Servicios:
 
 ---
 ## Ejecutar el proyecto
-
+```bash
 mvn spring-boot:run
-
+```
 
 ## 🔐 Seguridad
 
